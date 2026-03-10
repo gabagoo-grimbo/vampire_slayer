@@ -6,14 +6,14 @@ extends State
 
 func process(_delta: float) -> void:
 	# Animation
-	if player.direction == Global.Direction.LEFT:
+	if player.direction == Global.HorizontalDirection.LEFT:
 		if not player.is_on_floor():
 			player.animation_player.play("jump_left")
 		elif abs(player.velocity.x) > 0:
 			player.animation_player.play("move_left")
 		else:
 			player.animation_player.play("idle_left")
-	elif player.direction == Global.Direction.RIGHT:
+	elif player.direction == Global.HorizontalDirection.RIGHT:
 		if not player.is_on_floor():
 			player.animation_player.play("jump_right")
 		elif abs(player.velocity.x) > 0:

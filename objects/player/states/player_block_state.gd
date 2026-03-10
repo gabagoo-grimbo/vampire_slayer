@@ -6,9 +6,9 @@ extends State
 
 func process(_delta: float) -> void:
 	# Animation
-	if player.direction == Global.Direction.LEFT:
+	if player.direction == Global.HorizontalDirection.LEFT:
 		player.animation_player.play("block_left")
-	elif player.direction == Global.Direction.RIGHT:
+	elif player.direction == Global.HorizontalDirection.RIGHT:
 		player.animation_player.play("block_right")
 
 func physics_process(_delta: float) -> void:

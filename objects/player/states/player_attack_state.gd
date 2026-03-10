@@ -10,16 +10,16 @@ func enter() -> void:
 	attack_timer.timeout.connect(_on_attack_timer_timeout)
 	attack_timer.start()
 	
-	if player.direction == Global.Direction.LEFT:
+	if player.direction == Global.HorizontalDirection.LEFT:
 		player.hit_box_left.enable()
-	elif player.direction == Global.Direction.RIGHT:
+	elif player.direction == Global.HorizontalDirection.RIGHT:
 		player.hit_box_right.enable()
 
 func process(_delta: float) -> void:
 	# Animation
-	if player.direction == Global.Direction.LEFT:
+	if player.direction == Global.HorizontalDirection.LEFT:
 		player.animation_player.play("attack_left")
-	elif player.direction == Global.Direction.RIGHT:
+	elif player.direction == Global.HorizontalDirection.RIGHT:
 		player.animation_player.play("attack_right")
 
 func physics_process(_delta: float) -> void:
