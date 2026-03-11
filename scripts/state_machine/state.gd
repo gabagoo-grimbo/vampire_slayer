@@ -3,6 +3,9 @@ class_name State
 extends Node
 ## Class for states in StateMachine.
 
+## The machine that the state belongs to.
+var parent_machine: StateMachine
+
 ## Called when state is changed in to.
 func enter() -> void: pass
 ## Called every frame

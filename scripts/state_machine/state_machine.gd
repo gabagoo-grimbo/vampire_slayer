@@ -9,8 +9,11 @@ extends Node
 var current_state: State
 
 func _ready() -> void:
+	for state in get_states():
+		state.parent_machine = self
+	
 	assert(starting_state != null, "starting_state was null.")
-	change_state(starting_state.name)
+	change_state(starting_state)
 
 func process(delta: float) -> void:
 	current_state.process(delta)
@@ -19,11 +22,7 @@ func physics_process(delta: float) -> void:
 	current_state.physics_process(delta)
 
 ## Changes current_state to new_state.
-func change_state(new_state_name: String) -> void:
-	var new_state: State
-	for state in get_states():
-		if state.name == new_state_name:
-			new_state = state
+func change_state(new_state: State) -> void:
 	assert(new_state != null, "Could not find state to change to.")
 	if current_state != null:
 		current_state.exit()
