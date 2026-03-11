@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://dq01mqr0skgog"]
+
+[ext_resource type="Texture2D" uid="uid://ckbmwcm1c3r14" path="res://assets/images/redman.png" id="1_ctsoa"]
+[ext_resource type="Script" uid="uid://dcfk535wip2up" path="res://objects/redman/redman.gd" id="1_imtvx"]
+[ext_resource type="Script" uid="uid://cs26a8dqlmidf" path="res://scripts/components/velocity_component.gd" id="2_crnn2"]
+[ext_resource type="Script" uid="uid://bobpnkkg3wcei" path="res://scripts/components/health_component.gd" id="3_imtvx"]
+[ext_resource type="Script" uid="uid://brsftefbl2vwk" path="res://scripts/hit_hurt_box/hurt_box.gd" id="3_l8w6q"]
+[ext_resource type="Script" uid="uid://dddmov438j4k7" path="res://scripts/hit_hurt_box/hit_box.gd" id="4_7jh71"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mskx8"]
+size = Vector2(14, 16)
+
+[sub_resource type="Animation" id="Animation_crnn2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ctsoa"]
+resource_name = "move_left"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_mskx8"]
+resource_name = "move_right"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_crnn2"]
+_data = {
+&"RESET": SubResource("Animation_crnn2"),
+&"move_left": SubResource("Animation_ctsoa"),
+&"move_right": SubResource("Animation_mskx8")
+}
+
+[node name="Redman" type="CharacterBody2D" unique_id=814935450]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_imtvx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1354380675]
+texture = ExtResource("1_ctsoa")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=120515693]
+shape = SubResource("RectangleShape2D_mskx8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1056422813]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_crnn2")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=292143255 node_paths=PackedStringArray("health_component")]
+script = ExtResource("3_l8w6q")
+health_component = NodePath("../Components/HealthComponent")
+metadata/_custom_type_script = "uid://brsftefbl2vwk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1841246935]
+shape = SubResource("RectangleShape2D_mskx8")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1554150714]
+script = ExtResource("4_7jh71")
+power = 1
+metadata/_custom_type_script = "uid://dddmov438j4k7"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=648147008]
+shape = SubResource("RectangleShape2D_mskx8")
+
+[node name="Components" type="Node" parent="." unique_id=378665396]
+
+[node name="VelocityComponent" type="Node" parent="Components" unique_id=179438889 node_paths=PackedStringArray("parent")]
+unique_name_in_owner = true
+script = ExtResource("2_crnn2")
+parent = NodePath("../..")
+acceleration = 10.0
+deceleration = 7.0
+max_move_speed = 60.0
+metadata/_custom_type_script = "uid://cs26a8dqlmidf"
+
+[node name="HealthComponent" type="Node" parent="Components" unique_id=1454897135]
+unique_name_in_owner = true
+script = ExtResource("3_imtvx")
+max_health = 1
+metadata/_custom_type_script = "uid://bobpnkkg3wcei"

@@ -89,6 +89,7 @@ exit={
 2d_physics/layer_3="walls"
 2d_physics/layer_4="camera_bounding_areas"
 2d_physics/layer_5="hit_boxes"
+2d_physics/layer_6="hurt_boxes"
 
 [physics]
 

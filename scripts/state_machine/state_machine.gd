@@ -2,6 +2,8 @@ class_name StateMachine
 extends Node
 ## A simple finite state machine.
 
+## The parent object that the state machine belongs to.
+@export var parent: Node
 ## The starting state of the machine.
 @export var starting_state: State
 
@@ -11,6 +13,7 @@ var current_state: State
 func _ready() -> void:
 	for state in get_states():
 		state.parent_machine = self
+		state.parent = parent
 	
 	assert(starting_state != null, "starting_state was null.")
 	change_state(starting_state)

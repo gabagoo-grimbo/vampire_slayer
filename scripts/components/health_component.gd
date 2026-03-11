@@ -3,10 +3,11 @@ extends Node
 
 signal took_damage(power: int)
 signal died
+signal invulnerability_ended
 
 @export var max_health: int
 ## Its like iframes but in seconds
-@export var iseconds: int = 0
+@export var iseconds: float = 0
 
 var current_health: int
 var is_invulnerable: bool = false
@@ -19,7 +20,7 @@ func take_damage(power: int) -> void:
 		return
 	current_health -= power
 	took_damage.emit(power)
-	if current_health < 0:
+	if current_health <= 0:
 		current_health = 0
 		died.emit()
 		return
@@ -29,3 +30,4 @@ func take_damage(power: int) -> void:
 
 func _on_iseconds_finished() -> void:
 	is_invulnerable = false
+	invulnerability_ended.emit()

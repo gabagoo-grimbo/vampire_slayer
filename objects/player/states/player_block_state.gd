@@ -2,28 +2,19 @@ class_name PlayerBlockState
 extends State
 ## The block state for the player.
 
-@export var player: Player
+@export var animation_player: AnimationPlayer
+@export var idle_state: PlayerIdleState
 
 func process(_delta: float) -> void:
 	# Animation
-	if player.direction == Global.HorizontalDirection.LEFT:
-		player.animation_player.play("block_left")
-	elif player.direction == Global.HorizontalDirection.RIGHT:
-		player.animation_player.play("block_right")
+	if parent.direction == Global.HorizontalDirection.LEFT:
+		animation_player.play("block_left")
+	elif parent.direction == Global.HorizontalDirection.RIGHT:
+		animation_player.play("block_right")
 
 func physics_process(_delta: float) -> void:
-	# Horizontal Movement
-	if player.is_on_floor():
-		player.velocity.x = move_toward(player.velocity.x, 0, player.DECELERATION)
-	player.velocity.x = clamp(player.velocity.x, -player.MAX_MOVE_SPEED, player.MAX_MOVE_SPEED)
-	
-	# Vertical Movement
-	player.velocity.y += player.GRAVITY
-	
-	player.move_and_slide()
-	
 	if not Input.is_action_pressed("block"):
-		player.state_machine.change_state("PlayerIdleState")
+		parent_machine.change_state(idle_state)
 
 func _on_block_timer_timeout() -> void:
-	player.state_machine.change_state("PlayerIdleState")
+	parent_machine.change_state(idle_state)

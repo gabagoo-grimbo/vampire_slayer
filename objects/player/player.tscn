@@ -8,7 +8,9 @@
 [ext_resource type="Script" uid="uid://c1p6b57fu5xu1" path="res://objects/player/states/player_block_state.gd" id="6_xkryw"]
 [ext_resource type="Script" uid="uid://bobpnkkg3wcei" path="res://scripts/components/health_component.gd" id="7_ow0dq"]
 [ext_resource type="Script" uid="uid://brsftefbl2vwk" path="res://scripts/hit_hurt_box/hurt_box.gd" id="8_m4kly"]
+[ext_resource type="Script" uid="uid://c0uaihfowv1e2" path="res://objects/player/states/player_hurt_state.gd" id="9_psowp"]
 [ext_resource type="Script" uid="uid://dddmov438j4k7" path="res://scripts/hit_hurt_box/hit_box.gd" id="9_xgwla"]
+[ext_resource type="Script" uid="uid://cs26a8dqlmidf" path="res://scripts/components/velocity_component.gd" id="10_bi5m7"]
 
 [sub_resource type="Animation" id="Animation_g7ett"]
 length = 0.001
@@ -131,6 +133,60 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_45rsp"]
+resource_name = "hurt_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_c34wb"]
+resource_name = "hurt_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -318,6 +374,8 @@ _data = {
 &"attack_right": SubResource("Animation_bi5m7"),
 &"block_left": SubResource("Animation_psowp"),
 &"block_right": SubResource("Animation_45urx"),
+&"hurt_left": SubResource("Animation_45rsp"),
+&"hurt_right": SubResource("Animation_c34wb"),
 &"idle_left": SubResource("Animation_xkryw"),
 &"idle_right": SubResource("Animation_ssrue"),
 &"jump_left": SubResource("Animation_ow0dq"),
@@ -333,7 +391,7 @@ size = Vector2(8, 15)
 size = Vector2(8, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bi5m7"]
-size = Vector2(12, 15.98875)
+size = Vector2(12, 15.994375)
 
 [node name="Player" type="CharacterBody2D" unique_id=1941356791]
 collision_mask = 4
@@ -342,53 +400,22 @@ script = ExtResource("1_g7ett")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1808985228]
 texture = ExtResource("1_cqmt1")
 offset = Vector2(0, -1)
-hframes = 4
+hframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=304367281]
-unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_xkryw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=310793519]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_g7ett")
 
-[node name="StateMachine" type="Node" parent="." unique_id=474644698 node_paths=PackedStringArray("starting_state")]
-unique_name_in_owner = true
-script = ExtResource("3_ssrue")
-starting_state = NodePath("PlayerIdleState")
-metadata/_custom_type_script = "uid://dotjiberprs30"
-
-[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=1229238917 node_paths=PackedStringArray("player")]
-script = ExtResource("4_jnjyq")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://jo6lm3cmttu8"
-
-[node name="PlayerAttackState" type="Node" parent="StateMachine" unique_id=1609162231 node_paths=PackedStringArray("player", "attack_timer")]
-script = ExtResource("5_gnkmh")
-player = NodePath("../..")
-attack_timer = NodePath("AttackTimer")
-metadata/_custom_type_script = "uid://dgv45prdy71x0"
-
-[node name="AttackTimer" type="Timer" parent="StateMachine/PlayerAttackState" unique_id=2121614232]
-wait_time = 0.25
-one_shot = true
-
-[node name="PlayerBlockState" type="Node" parent="StateMachine" unique_id=2054471317 node_paths=PackedStringArray("player")]
-script = ExtResource("6_xkryw")
-player = NodePath("../..")
-metadata/_custom_type_script = "uid://c1p6b57fu5xu1"
-
-[node name="HealthComponent" type="Node" parent="." unique_id=845854927]
-unique_name_in_owner = true
-script = ExtResource("7_ow0dq")
-max_health = 5
-metadata/_custom_type_script = "uid://bobpnkkg3wcei"
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=874133415]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=825187271 node_paths=PackedStringArray("health_component")]
 script = ExtResource("8_m4kly")
-health_component = NodePath("../HealthComponent")
+health_component = NodePath("../Components/HealthComponent")
 metadata/_custom_type_script = "uid://brsftefbl2vwk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1738344907]
@@ -396,21 +423,87 @@ shape = SubResource("RectangleShape2D_xgwla")
 
 [node name="HitBoxes" type="Node2D" parent="." unique_id=1679894905]
 
-[node name="HitBoxLeft" type="Area2D" parent="HitBoxes" unique_id=611950793]
+[node name="HitBoxLeft" type="Area2D" parent="HitBoxes" unique_id=611950793 node_paths=PackedStringArray("parent")]
 unique_name_in_owner = true
 script = ExtResource("9_xgwla")
+parent = NodePath("../..")
 metadata/_custom_type_script = "uid://dddmov438j4k7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxes/HitBoxLeft" unique_id=1675213435]
-position = Vector2(-10, -1)
+position = Vector2(-10, -1.0028124)
 shape = SubResource("RectangleShape2D_bi5m7")
 debug_color = Color(0, 0.6, 0.7019608, 0.41960785)
 
-[node name="HitBoxRight" type="Area2D" parent="HitBoxes" unique_id=1320702848]
+[node name="HitBoxRight" type="Area2D" parent="HitBoxes" unique_id=1320702848 node_paths=PackedStringArray("parent")]
 unique_name_in_owner = true
 script = ExtResource("9_xgwla")
+parent = NodePath("../..")
 metadata/_custom_type_script = "uid://dddmov438j4k7"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxes/HitBoxRight" unique_id=1772782956]
 position = Vector2(10, -1)
 shape = SubResource("RectangleShape2D_bi5m7")
+
+[node name="StateMachine" type="Node" parent="." unique_id=474644698 node_paths=PackedStringArray("parent", "starting_state")]
+unique_name_in_owner = true
+script = ExtResource("3_ssrue")
+parent = NodePath("..")
+starting_state = NodePath("PlayerIdleState")
+metadata/_custom_type_script = "uid://dotjiberprs30"
+
+[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=1229238917 node_paths=PackedStringArray("velocity_component", "animation_player", "attack_state", "block_state")]
+script = ExtResource("4_jnjyq")
+velocity_component = NodePath("../../Components/VelocityComponent")
+animation_player = NodePath("../../AnimationPlayer")
+attack_state = NodePath("../PlayerAttackState")
+block_state = NodePath("../PlayerBlockState")
+metadata/_custom_type_script = "uid://jo6lm3cmttu8"
+
+[node name="PlayerAttackState" type="Node" parent="StateMachine" unique_id=1609162231 node_paths=PackedStringArray("attack_timer", "hit_box_left", "hit_box_right", "animation_player", "idle_state", "velocity_component")]
+script = ExtResource("5_gnkmh")
+attack_timer = NodePath("AttackTimer")
+hit_box_left = NodePath("../../HitBoxes/HitBoxLeft")
+hit_box_right = NodePath("../../HitBoxes/HitBoxRight")
+animation_player = NodePath("../../AnimationPlayer")
+idle_state = NodePath("../PlayerIdleState")
+velocity_component = NodePath("../../Components/VelocityComponent")
+metadata/_custom_type_script = "uid://dgv45prdy71x0"
+
+[node name="AttackTimer" type="Timer" parent="StateMachine/PlayerAttackState" unique_id=2121614232]
+wait_time = 0.25
+one_shot = true
+
+[node name="PlayerBlockState" type="Node" parent="StateMachine" unique_id=2054471317 node_paths=PackedStringArray("animation_player", "idle_state")]
+script = ExtResource("6_xkryw")
+animation_player = NodePath("../../AnimationPlayer")
+idle_state = NodePath("../PlayerIdleState")
+metadata/_custom_type_script = "uid://c1p6b57fu5xu1"
+
+[node name="PlayerHurtState" type="Node" parent="StateMachine" unique_id=1822293912 node_paths=PackedStringArray("idle_state", "velocity_component", "health_component", "animation_player", "sprite_2d")]
+unique_name_in_owner = true
+script = ExtResource("9_psowp")
+idle_state = NodePath("../PlayerIdleState")
+velocity_component = NodePath("../../Components/VelocityComponent")
+health_component = NodePath("../../Components/HealthComponent")
+animation_player = NodePath("../../AnimationPlayer")
+sprite_2d = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://c0uaihfowv1e2"
+
+[node name="Components" type="Node" parent="." unique_id=785627843]
+
+[node name="HealthComponent" type="Node" parent="Components" unique_id=845854927]
+unique_name_in_owner = true
+script = ExtResource("7_ow0dq")
+max_health = 5
+iseconds = 0.5
+metadata/_custom_type_script = "uid://bobpnkkg3wcei"
+
+[node name="VelocityComponent" type="Node" parent="Components" unique_id=312645630 node_paths=PackedStringArray("parent")]
+unique_name_in_owner = true
+script = ExtResource("10_bi5m7")
+parent = NodePath("../..")
+acceleration = 10.0
+deceleration = 7.0
+jump_force = 240.0
+max_move_speed = 90.0
+metadata/_custom_type_script = "uid://cs26a8dqlmidf"

@@ -5,6 +5,8 @@ extends Node
 
 ## The machine that the state belongs to.
 var parent_machine: StateMachine
+## The parent object the state belongs to.
+var parent: Node
 
 ## Called when state is changed in to.
 func enter() -> void: pass
